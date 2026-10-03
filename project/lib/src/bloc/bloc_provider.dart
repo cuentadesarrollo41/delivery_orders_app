@@ -1,0 +1,30 @@
+import 'package:flutter/material.dart';
+
+// Import.
+import 'package:project/src/bloc/index.dart';
+
+// Export.
+export 'package:project/src/bloc/index.dart';
+
+class BlocProvider extends InheritedWidget {
+  static BlocProvider? _instance;
+
+  factory BlocProvider({ Key? key, required Widget child }) {
+    _instance ??= BlocProvider._internal(key: key, child: child);
+
+    return _instance!;
+  }
+
+  BlocProvider._internal({ super.key, required super.child });
+
+  final LoginBloc _loginBloc = LoginBloc();
+  final MainBloc _mainBloc = MainBloc();
+  final StateBloc _stateBloc = StateBloc();
+
+  @override
+  bool updateShouldNotify(InheritedWidget oldWidget) => true;
+
+  static LoginBloc loginBloc(BuildContext context) => context.dependOnInheritedWidgetOfExactType<BlocProvider>()!._loginBloc;
+  static MainBloc mainBloc(BuildContext context) => context.dependOnInheritedWidgetOfExactType<BlocProvider>()!._mainBloc;
+  static StateBloc stateBloc(BuildContext context) => context.dependOnInheritedWidgetOfExactType<BlocProvider>()!._stateBloc;
+}
